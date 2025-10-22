@@ -7,9 +7,10 @@ import (
 
 type UserRepository interface {
 	Save(user *entities.User) error
-	FindByName(name string) (*entities.User, error)
+	FindByID(id string) (*entities.User, error)
 }
 
 type UserServices interface {
 	CreateUser(cmd command.CreateUserCommand) (*entities.User, error)
+	GetUser(id string) (*entities.User, error)
 }

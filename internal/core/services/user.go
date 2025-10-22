@@ -35,7 +35,7 @@ func (u *UserServices) CreateUser(cmd command.CreateUserCommand) (*entities.User
 		return nil, errors.New("user name validation failed")
 	}
 
-	if existUser, _ := u.repo.FindByName(newUser.Name); existUser != nil {
+	if existUser, _ := u.repo.FindByID(newUser.Name); existUser != nil {
 		return nil, errors.New("user already exists")
 	}
 
@@ -44,6 +44,16 @@ func (u *UserServices) CreateUser(cmd command.CreateUserCommand) (*entities.User
 	}
 
 	return nil, nil
+}
+
+func (u *UserServices) GetUser(id string) (*entities.User, error) {
+
+	user, err := u.repo.FindByID(id)
+	if err != nil {
+		return nil, errors.New("user not found")
+	}
+
+	return user, nil
 }
 
 /*
@@ -68,7 +78,8 @@ func (u *UserServices) CreateUser(cmd command.CreateUserCommand) (*entities.User
 	err = .... <- err ตรงนี้ยังใช้ได้
 
 	แบบที่ 1 จะเหมาะกว่าในเนื่องของการกำหนด scope เพราะมันช่วยจำกัด Scope ของตัวแปร err
-	ซึ่งเป็นสิ่งที่ดีที่สุดในทางปฏิบัติเพื่อหลีกเลี่ยงข้อผิดพลาดจากตัวแปรซ้ำซ้อน
+	ซึ่งเป็นสิ่งที่ดีที่สุดในทางปฏิบัติเพื่อหลีกเลี่ยงข้อผิดพลาดจากตัวแปรซ้ำซ้อน สำหรับกรณีที่ไม่ได้เอาตัวแปร value
+	ไปใช้นอก scope
 
 	แบบที่ 2 จะสามารถใช้ err ได้ต่อจากการประกาศครั้งแรก หมายความมันยังใช้ได้นอก scope if
 */
