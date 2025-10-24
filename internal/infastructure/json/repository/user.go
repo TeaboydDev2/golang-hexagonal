@@ -10,7 +10,7 @@ import (
 	"os"
 )
 
-const fileName = "./../infastructure/json/collection/user.json"
+const fileName = "./../internal/infastructure/json/collection/user.json"
 
 type JsonUserRepository struct{}
 
